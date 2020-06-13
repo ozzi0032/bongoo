@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "94117525922",
+    "firebase_url": "https://bongo-dc144.firebaseio.com",
+    "project_id": "bongo-dc144",
+    "storage_bucket": "bongo-dc144.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94117525922:android:8b43f030b48411ca6ddafb",
+        "android_client_info": {
+          "package_name": "com.example.bongoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94117525922-2khrl30tletr2e91pm7hj1ubj6rtqn2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCli7krEc4hdQeef13gRZ0qrHkaW5niotw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94117525922-2khrl30tletr2e91pm7hj1ubj6rtqn2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
