@@ -1,5 +1,6 @@
-import 'package:bongoo/ui/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'loginScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +11,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bongoo',
-      home: HomePage(),
+      theme: ThemeData(
+        textTheme: TextTheme(bodyText2: GoogleFonts.lato()),
+      ),
+      home: LoginScreen(),
     );
   }
 }

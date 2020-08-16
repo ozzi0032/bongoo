@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppCustomTextField extends StatefulWidget {
   final String labelText;
+  final Color labelColor;
   final String subStr;
   final bool obscure;
   final TextEditingController controller;
@@ -9,6 +10,7 @@ class AppCustomTextField extends StatefulWidget {
   final bool hasValidation;
   AppCustomTextField(
       {@required this.labelText,
+      this.labelColor = Colors.white,
       this.subStr,
       this.controller,
       this.obscure = false,
@@ -21,33 +23,33 @@ class AppCustomTextField extends StatefulWidget {
 class _AppCustomTextFieldState extends State<AppCustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            widget.labelText,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          TextFormField(
-              controller: widget.controller,
-              obscureText: widget.obscure,
-              keyboardType: widget.keyboardType,
-              validator: (val) {
-                return widget.hasValidation
-                    ? getValidatorMsg(widget.labelText, val)
-                    : null;
-              },
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          widget.labelText,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: widget.labelColor,
+              fontSize: 14),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+            controller: widget.controller,
+            obscureText: widget.obscure,
+            keyboardType: widget.keyboardType,
+            validator: (val) {
+              return widget.hasValidation
+                  ? getValidatorMsg(widget.labelText, val)
+                  : null;
+            },
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true))
+      ],
     );
   }
 
