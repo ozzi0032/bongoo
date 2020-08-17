@@ -1,4 +1,4 @@
-import 'package:bongoo/signupScreen.dart';
+import 'package:bongoo/UI/screens/signupScreen.dart';
 import 'package:bongoo/ui/screens/home.dart';
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
 import 'package:flutter/material.dart';

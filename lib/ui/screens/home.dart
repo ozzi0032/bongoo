@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import './alarmFragment.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             bottom: TabBar(
               tabs: [
@@ -42,12 +44,12 @@ class _HomePageState extends State<HomePage> {
                 Tab(icon: Icon(Icons.timer), text: "Timer"),
               ],
             ),
-            title: Text('Tabs Demo'),
-            backgroundColor: Colors.black,
+            title: Text('Home'),
+            backgroundColor: const Color(0xff98cdb5),
           ),
           body: TabBarView(
             children: [
-              Icon(Icons.access_alarm),
+              AlarmFragment(),
               Center(
                   child: Column(children: <Widget>[
                 Text(
