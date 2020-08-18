@@ -1,3 +1,4 @@
+import 'package:bongoo/utils/appConstants.dart';
 import 'package:flutter/material.dart';
 
 class AppCustomTextField extends StatefulWidget {
@@ -54,34 +55,24 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
   }
 
   getValidatorMsg(String t, String value) {
-    // switch (t) {
-    //   case Constants.fnameTextFieldLabel:
-    //     return !value.contains('') || value.length < 3
-    //         ? Constants.fnameValidation
-    //         : null;
-    //     break;
-    //   case Constants.lnameTextFieldLabel:
-    //     return !value.contains('') || value.length < 3
-    //         ? Constants.lnameValidation
-    //         : null;
-    //     break;
-    //   case Constants.contactNumberTextFieldLabel:
-    //     return !value.contains('') || value.length < 10
-    //         ? Constants.contactNumberValidation
-    //         : null;
-    //     break;
-    //   case Constants.emailTextFieldLabel:
-    //     return !value.contains('@') ? Constants.emailValidation : null;
-    //     break;
-    //   case Constants.passwordTextFieldLabel:
-    //     return value.length < 8 ? Constants.passwordValidation : null;
-    //     break;
-    //   case Constants.confirmPasswordTextFieldLabel:
-    //     return value != widget.subStr
-    //         ? Constants.repeatPasswordValidation
-    //         : null;
-    //     break;
-    // }
+    switch (t) {
+      case AppConstants.emailTextFieldLabel:
+        return !value.contains('@') ? AppConstants.emailValidation : null;
+        break;
+      case AppConstants.confirmEmailTextFieldLabel:
+        return value != widget.subStr
+            ? AppConstants.confirmEmailValidation
+            : null;
+        break;
+      case AppConstants.passwordTextFieldLabel:
+        return value.length < 8 ? AppConstants.passwordValidation : null;
+        break;
+      case AppConstants.confirmPasswordTextFieldLabel:
+        return value != widget.subStr
+            ? AppConstants.repeatPasswordValidation
+            : null;
+        break;
+    }
     return null;
   }
 }

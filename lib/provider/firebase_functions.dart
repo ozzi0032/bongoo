@@ -4,7 +4,7 @@ import 'package:bongoo/model/user_model.dart';
 class FirebaseFunctions {
   static Future addUser(UserModel obj) async {
     DocumentReference dr =
-        Firestore.instance.collection('Users').document(obj.email);
+        Firestore.instance.collection('bell_01').document(obj.email);
     await dr.setData(obj.toJSON(obj));
   }
 

@@ -1,6 +1,7 @@
 import 'package:bongoo/UI/screens/signupScreen.dart';
 import 'package:bongoo/ui/screens/home.dart';
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
+import 'package:bongoo/utils/appConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,6 +15,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +45,19 @@ class _LoginScreenState extends State<LoginScreen> {
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child: AppCustomTextField(
-              labelText: 'Username',
+              labelText: AppConstants.usernameTextFieldLabel,
               keyboardType: TextInputType.emailAddress,
+              controller: _usernameController,
             ),
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child: AppCustomTextField(
-              labelText: 'Password',
+              labelText: AppConstants.passwordTextFieldLabel,
               obscure: true,
               keyboardType: TextInputType.text,
+              controller: _passwordController,
             ),
           ),
           InkWell(
@@ -60,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
             },
             child: Container(
-              height: 70,
+              height: MediaQuery.of(context).size.height * 0.1,
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(

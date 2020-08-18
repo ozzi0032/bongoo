@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class AlarmFragment extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   bool _saturday = false;
   bool _sunday = false;
 
+  String _time = 'Not set';
   _showModalBottomSheet() {
     showModalBottomSheet(
         elevation: 3,
@@ -58,10 +61,21 @@ class _AlarmFragmentState extends State<AlarmFragment> {
         ListTile(
           title: Text('From'),
           trailing: Icon(Icons.access_time),
+          onTap: () {
+            DatePicker.showTimePicker(context,
+                theme: DatePickerTheme(
+                  containerHeight: MediaQuery.of(context).size.height * 0.3,
+                ),
+                showTitleActions: true, onConfirm: (time) {
+              print('confirm $time');
+              _time = '${time.hour} : ${time.minute} : ${time.second}';
+            }, currentTime: DateTime.now(), locale: LocaleType.en);
+          },
         ),
         ListTile(
           title: Text('To'),
           trailing: Icon(Icons.access_time),
+          onTap: () {},
         ),
         // Days Widget
         Row(

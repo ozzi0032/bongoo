@@ -1,11 +1,9 @@
 class UserModel {
+  String bellId;
   String userId;
-  String fname;
-  String lname;
   String email;
-  String contactNumber;
-  UserModel(
-      {this.userId, this.fname, this.lname, this.email, this.contactNumber});
+  String password;
+  UserModel({this.bellId, this.userId, this.email, this.password});
 
   toJSON(UserModel obj) {
     final data = obj.toMap();
@@ -13,10 +11,9 @@ class UserModel {
   }
 
   Map<String, dynamic> toMap() => {
+        'bellId': bellId,
         'userId': userId,
-        'firstName': fname,
-        'lastName': lname,
         'emailAddress': email,
-        'contactNumber': contactNumber,
+        'password': password,
       };
 }

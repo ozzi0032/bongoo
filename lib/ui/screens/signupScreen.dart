@@ -1,11 +1,24 @@
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
+import 'package:bongoo/utils/appConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   SignupScreen({
     Key key,
   }) : super(key: key);
+
+  @override
+  _SignupScreenState createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  TextEditingController _bellCodeController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _confirmEmailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,46 +46,51 @@ class SignupScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child: AppCustomTextField(
-              labelText: 'Bell Code',
+              labelText: AppConstants.bellIdTextFieldLabel,
               keyboardType: TextInputType.emailAddress,
+              controller: _bellCodeController,
             ),
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child: AppCustomTextField(
-              labelText: 'Email',
+              labelText: AppConstants.emailTextFieldLabel,
               keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
             ),
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child: AppCustomTextField(
-              labelText: 'Confirm Email',
+              labelText: AppConstants.confirmEmailTextFieldLabel,
               keyboardType: TextInputType.emailAddress,
+              controller: _confirmEmailController,
             ),
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child: AppCustomTextField(
-              labelText: 'Password',
+              labelText: AppConstants.passwordTextFieldLabel,
               obscure: true,
               keyboardType: TextInputType.text,
+              controller: _passwordController,
             ),
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.15,
             width: MediaQuery.of(context).size.width,
             child: AppCustomTextField(
-              labelText: 'Confirm Password',
+              labelText: AppConstants.confirmPasswordTextFieldLabel,
               obscure: true,
               keyboardType: TextInputType.text,
+              controller: _confirmPasswordController,
             ),
           ),
           Container(
-            height: 70,
+            height: MediaQuery.of(context).size.height * 0.1,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
