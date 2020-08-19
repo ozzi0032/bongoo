@@ -25,30 +25,37 @@ class FirebaseFunctions {
     List<dynamic> saturday = List<dynamic>();
     List<dynamic> sunday = List<dynamic>();
     monday.add( true);
+    monday.add("Monday");
     monday.add( timeIn);
     monday.add( timeIn);
 
 tuesday.add( true);
+tuesday.add("Tuesday");
     tuesday.add( timeIn);
     tuesday.add( timeIn);
 
     wednesday.add( true);
+    wednesday.add("Wednesday");
     wednesday.add( timeIn);
     wednesday.add( timeIn);
 
     thursday.add( true);
+    thursday.add("Thursday");
     thursday.add( timeIn);
     thursday.add( timeIn);
 
     friday.add( true);
+    friday.add("Friday");
     friday.add( timeIn);
     friday.add( timeIn);
 
     saturday.add( true);
+    saturday.add("Saturday");
     saturday.add( timeIn);
     saturday.add( timeIn);
 
      sunday.add( true);
+     sunday.add("Sunday");
     sunday.add( timeIn);
     sunday.add( timeIn);
 
