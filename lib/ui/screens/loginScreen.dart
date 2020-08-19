@@ -2,6 +2,7 @@ import 'package:bongoo/UI/screens/signupScreen.dart';
 import 'package:bongoo/ui/screens/home.dart';
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
 import 'package:bongoo/utils/appConstants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,7 +18,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
+   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+   String errorMessage = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,8 +64,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+                userLogin();
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
             },
             child: Container(
               height: MediaQuery.of(context).size.height * 0.1,
@@ -85,7 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Container(
+               
+               
+                 Container(
                     height: MediaQuery.of(context).size.height * 0.13,
                     width: MediaQuery.of(context).size.width * 0.13,
                     decoration: BoxDecoration(
@@ -97,6 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: const Color(0xfffecb65),
                     ),
                   )
+                  
+                  
                 ],
               ),
             ),
@@ -121,5 +128,67 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+   userLogin() async {
+    
+    //if (formKey.currentState.validate()) {
+      try {
+        final FirebaseUser user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+                    email: _usernameController.text, password: _passwordController.text))
+            .user;
+        //await setLoginSession(); //Setting bool value to keep user logged in
+        
+        //await setUserProfileInfo(user.email);
+        
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+      } catch (e) {
+        switch (e.code) {
+          case "ERROR_INVALID_EMAIL":
+            errorMessage = "Your email address appears to be malformed.";
+            break;
+          case "ERROR_WRONG_PASSWORD":
+            errorMessage = "Your password is wrong.";
+            break;
+          case "ERROR_USER_NOT_FOUND":
+            errorMessage = "User with this email doesn't exist.";
+            break;
+          case "ERROR_USER_DISABLED":
+            errorMessage = "User with this email has been disabled.";
+            break;
+          case "ERROR_TOO_MANY_REQUESTS":
+            errorMessage = "Too many requests. Try again later.";
+            break;
+          case "ERROR_OPERATION_NOT_ALLOWED":
+            errorMessage = "Signing in with Email and Password is not enabled.";
+            break;
+          default:
+            errorMessage = "An undefined Error happened.";
+        }
+        
+        errorMessageDialog();
+      //}
+    }
+   
+  }
+  
+    errorMessageDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error! Cannot Login"),
+            content: Text(errorMessage),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }

@@ -1,5 +1,9 @@
+import 'package:bongoo/model/user_model.dart';
+import 'package:bongoo/provider/firebase_functions.dart';
+import 'package:bongoo/ui/screens/loginScreen.dart';
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
 import 'package:bongoo/utils/appConstants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,11 +23,13 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff8dc1d1),
-      body: ListView(
+      body: Form(child:ListView(
         padding: const EdgeInsets.all(20),
         children: <Widget>[
           Text(
@@ -109,23 +115,86 @@ class _SignupScreenState extends State<SignupScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.13,
-                  width: MediaQuery.of(context).size.width * 0.13,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Icon(
-                    Icons.arrow_forward,
-                    size: 30,
-                    color: const Color(0xff8dc1d1),
-                  ),
-                )
+                GestureDetector(
+                    onTap: () {
+                      userSignup();
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.13,
+                      width: MediaQuery.of(context).size.width * 0.13,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Icon(
+                        Icons.arrow_forward,
+                        size: 30,
+                        color: const Color(0xff8dc1d1),
+                      ),
+                    ))
               ],
             ),
           )
         ],
       ),
-    );
+    ));
+  }
+
+  userSignup() async {
+    //if (formKey.currentState.validate()) {
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text))
+            .user;
+        _addUserToDB(user.uid); //To keep record of user information
+        _successDialog();
+      } catch (e) {
+        _errorDialog(e.code);
+      }
+    //}
+  }
+
+  _addUserToDB(String uid) async {
+    UserModel user = new UserModel();
+    user.bellId = _bellCodeController.text;
+    user.email = _emailController.text;
+    user.userId = uid;
+    await FirebaseFunctions.addUser(user);
+  }
+
+  _successDialog() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Error"),
+              content: Text("Registration successful"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
+                )
+              ],
+            ));
+  }
+
+  _errorDialog(String error) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Error"),
+              content: Text(error),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
   }
 }

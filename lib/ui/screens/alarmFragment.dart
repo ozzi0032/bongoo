@@ -1,6 +1,8 @@
+import 'package:bongoo/provider/firebase_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AlarmFragment extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   bool _sunday = false;
 
   String _time = 'Not set';
+  Firestore db = Firestore.instance;
   _showModalBottomSheet() {
     showModalBottomSheet(
         elevation: 3,
@@ -66,10 +69,14 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                 theme: DatePickerTheme(
                   containerHeight: MediaQuery.of(context).size.height * 0.3,
                 ),
-                showTitleActions: true, onConfirm: (time) {
+                showTitleActions: true, 
+                onConfirm: (time) {
+                  // write in firestore here
+                  FirebaseFunctions.addAlarm(time);
               print('confirm $time');
               _time = '${time.hour} : ${time.minute} : ${time.second}';
             }, currentTime: DateTime.now(), locale: LocaleType.en);
+           
           },
         ),
         ListTile(
@@ -276,7 +283,6 @@ class _AlarmFragmentState extends State<AlarmFragment> {
       ],
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
