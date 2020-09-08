@@ -15,7 +15,7 @@ class FirebaseFunctions {
   }
 
   static addAlarm(Map<String, dynamic> alarmMap) async {
-    DocumentReference doc = db.collection("bell_01").document("alarm");
+    DocumentReference doc = db.collection("bell_01").document("alarm").collection("Alarms").document("123");
     print(alarmMap);
     doc.updateData(alarmMap).whenComplete(() {
       print("=========================");

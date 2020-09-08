@@ -408,7 +408,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          stream: db.collection("bell_01").document("alarm").snapshots(),
+          stream: db.collection("bell_01").document('alarm').snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Text("Server Error!");
@@ -419,22 +419,36 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                 ],
               );
             } else {
+              var length = snapshot.data;
+
+              print(length.data["day1"]);
+
+              int counter = 0;
+              final Map<dynamic, dynamic> map = length.data;
+              map.forEach((key, value) {
+                print(key.toString() + " 34545 " + value[0].toString());
+                counter++;
+                print("Value number" + counter.toString());
+              });
+
               return ListView.builder(
-                  itemCount: 7,
+                  itemCount:
+                      counter, //length(snapshot),//snapshot.data.documents.length,
                   itemBuilder: (ctx, index) {
-                    var currentItem = snapshot.data[weekDays[index]];
+                    DocumentSnapshot ds = snapshot.data;
+                    //var currentItem = snapshot.data[weekDays[index]];
                     return ExpansionTile(
-                      title: Text(currentItem[1]),
+                      title: Text(ds.data["day1"][1].toString()),
                       children: <Widget>[
                         ListTile(
                           title: Text('From'),
-                          subtitle: Text(currentItem[2]),
+                          subtitle: Text(ds.data["day2"][1].toString()),
                           trailing: Icon(Icons.access_time),
                           onTap: () {},
                         ),
                         ListTile(
                           title: Text('To'),
-                          subtitle: Text(currentItem[3]),
+                          subtitle: Text("currentItem[3]"),
                           trailing: Icon(Icons.access_time),
                           onTap: () {},
                         ),
@@ -470,5 +484,32 @@ class _AlarmFragmentState extends State<AlarmFragment> {
         ),
       ),
     );
+  }
+
+  int length(AsyncSnapshot snapshot) {
+    DocumentSnapshot docs = snapshot.data;
+    int counter = 0;
+    if (docs.data["Monday"][0]) {
+      counter++;
+    }
+    if (docs.data["Tuesday"][0]) {
+      counter++;
+    }
+    if (docs.data["Wednesday"][0]) {
+      counter++;
+    }
+    if (docs.data["Thursday"][0]) {
+      counter++;
+    }
+    if (docs.data["Friday"][0]) {
+      counter++;
+    }
+    if (docs.data["Saturday"][0]) {
+      counter++;
+    }
+    if (docs.data["Sunday"][0]) {
+      counter++;
+    }
+    return counter;
   }
 }
