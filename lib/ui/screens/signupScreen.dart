@@ -30,6 +30,10 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     pr = ProgressDialog(context);
+    pr.style(
+      message: "Signing up.....",
+      progressWidget: CircularProgressIndicator(),
+    );
     return Scaffold(
         backgroundColor: const Color(0xff8dc1d1),
         body: Form(

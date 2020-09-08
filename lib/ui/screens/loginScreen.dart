@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:bongoo/UI/screens/signupScreen.dart';
 import 'package:bongoo/ui/screens/home.dart';
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
 import 'package:bongoo/utils/appConstants.dart';
+import 'package:bongoo/utils/sharedPrefs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,14 +21,25 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
   ProgressDialog pr;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String errorMessage = '';
   @override
+  void initState() {
+    _configure();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     pr = ProgressDialog(context);
+    pr.style(
+      message: "Signing in.....",
+      progressWidget: CircularProgressIndicator(),
+    );
     return Scaffold(
       backgroundColor: const Color(0xfffecb65),
       body: ListView(
@@ -129,6 +144,20 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  _configure() {
+    firebaseMessaging.configure(
+      onLaunch: (Map<String, dynamic> msg) {
+        print(" onLaunch called ******");
+      },
+      onResume: (Map<String, dynamic> msg) {
+        print(" onResume called*******");
+      },
+      onMessage: (Map<String, dynamic> msg) {
+        print(" onMessage called******");
+      },
+    );
+  }
+
   userLogin() async {
     pr.show();
     //if (formKey.currentState.validate()) {
@@ -138,9 +167,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   email: _usernameController.text,
                   password: _passwordController.text))
           .user;
-      //await setLoginSession(); //Setting bool value to keep user logged in
+      firebaseMessaging.subscribeToTopic('BongoAlerts');
       pr.hide();
+      //Configure to the push notifications
+      _configure();
       //await setUserProfileInfo(user.email);
+      //Set login Session
+      SharedPrefs.setLoginStatus(true);
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
     } catch (e) {

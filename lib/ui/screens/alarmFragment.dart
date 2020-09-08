@@ -18,7 +18,15 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   bool _friday = false;
   bool _saturday = false;
   bool _sunday = false;
-  List<AlarmModel> listOfObjects;
+  List<String> weekDays = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
   String _fromTime = '12,00';
   String _toTime = '00,00';
 
@@ -26,25 +34,95 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   String toSubtitle = DateTime.now().toString();
 
   Firestore db = Firestore.instance;
+
+  Map<String, dynamic> alarmMap = {
+    'Monday': null,
+    'Tuesday': null,
+    'Wednesday': null,
+    'Thursday': null,
+    'Friday': null,
+    'Saturday': null,
+    'Sunday': null,
+  };
+  List<dynamic> mondayList = List<dynamic>();
+  List<dynamic> tuesdayList = List<dynamic>();
+  List<dynamic> wednesdayList = List<dynamic>();
+  List<dynamic> thursdayList = List<dynamic>();
+  List<dynamic> fridayList = List<dynamic>();
+  List<dynamic> saturdayList = List<dynamic>();
+  List<dynamic> sundayList = List<dynamic>();
   _setAlarm() {
-    listOfObjects = List();
     if (_monday) {
+      mondayList = List<dynamic>();
       AlarmModel monObj = new AlarmModel();
-      monObj.isActive = true;
-      monObj.day = 'Monday';
-      monObj.from = _fromTime;
-      monObj.to = _toTime;
-      listOfObjects.add(monObj);
+      mondayList.add(monObj.isActive = true);
+      mondayList.add(monObj.day = 'Monday');
+      mondayList.add(monObj.from = _fromTime);
+      mondayList.add(monObj.to = _toTime);
+      alarmMap.update('Monday', (value) => mondayList,
+          ifAbsent: () => mondayList);
     }
     if (_tuesday) {
+      tuesdayList = List<dynamic>();
       AlarmModel tueObj = new AlarmModel();
-      tueObj.isActive = true;
-      tueObj.day = 'Tuesday';
-      tueObj.from = _fromTime;
-      tueObj.to = _toTime;
-      listOfObjects.add(tueObj);
+      tuesdayList.add(tueObj.isActive = true);
+      tuesdayList.add(tueObj.day = 'Tuesday');
+      tuesdayList.add(tueObj.from = _fromTime);
+      tuesdayList.add(tueObj.to = _toTime);
+      alarmMap.update('Tuesday', (value) => tuesdayList,
+          ifAbsent: () => tuesdayList);
     }
-    FirebaseFunctions.addAlarm(listOfObjects);
+    if (_wednesday) {
+      wednesdayList = List<dynamic>();
+      AlarmModel wedObj = new AlarmModel();
+      wednesdayList.add(wedObj.isActive = true);
+      wednesdayList.add(wedObj.day = 'Wednesday');
+      wednesdayList.add(wedObj.from = _fromTime);
+      wednesdayList.add(wedObj.to = _toTime);
+      alarmMap.update('Wednesday', (value) => wednesdayList,
+          ifAbsent: () => wednesdayList);
+    }
+    if (_thursday) {
+      thursdayList = List<dynamic>();
+      AlarmModel thurObj = new AlarmModel();
+      thursdayList.add(thurObj.isActive = true);
+      thursdayList.add(thurObj.day = 'Thursday');
+      thursdayList.add(thurObj.from = _fromTime);
+      thursdayList.add(thurObj.to = _toTime);
+      alarmMap.update('Thursday', (value) => thursdayList,
+          ifAbsent: () => thursdayList);
+    }
+    if (_friday) {
+      fridayList = List<dynamic>();
+      AlarmModel friObj = new AlarmModel();
+      fridayList.add(friObj.isActive = true);
+      fridayList.add(friObj.day = 'Friday');
+      fridayList.add(friObj.from = _fromTime);
+      fridayList.add(friObj.to = _toTime);
+      alarmMap.update('Friday', (value) => fridayList,
+          ifAbsent: () => fridayList);
+    }
+    if (_saturday) {
+      saturdayList = List<dynamic>();
+      AlarmModel satObj = new AlarmModel();
+      saturdayList.add(satObj.isActive = true);
+      saturdayList.add(satObj.day = 'Saturday');
+      saturdayList.add(satObj.from = _fromTime);
+      saturdayList.add(satObj.to = _toTime);
+      alarmMap.update('Saturday', (value) => saturdayList,
+          ifAbsent: () => saturdayList);
+    }
+    if (_sunday) {
+      sundayList = List<dynamic>();
+      AlarmModel sunObj = new AlarmModel();
+      sundayList.add(sunObj.isActive = true);
+      sundayList.add(sunObj.day = 'Sunday');
+      sundayList.add(sunObj.from = _fromTime);
+      sundayList.add(sunObj.to = _toTime);
+      alarmMap.update('Sunday', (value) => sundayList,
+          ifAbsent: () => sundayList);
+    }
+    FirebaseFunctions.addAlarm(alarmMap);
   }
 
   _showModalBottomSheet() {
@@ -83,6 +161,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
             FlatButton(
               child: Text('Save'),
               onPressed: () {
+                //_setAlarm();
                 _setAlarm();
                 Navigator.of(context).pop();
               },
@@ -100,7 +179,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                 ),
                 showTitleActions: true, onConfirm: (time) {
               print('***************************************from $time');
-              _fromTime = '${time.hour} , ${time.minute}';
+              _fromTime = '${time.hour},${time.minute}';
               setModalState(() {
                 fromSubtitle = time.toString();
               });
@@ -118,7 +197,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                 ),
                 showTitleActions: true, onConfirm: (time) {
               print('***************************************too $time');
-              _toTime = '${time.hour} , ${time.minute}';
+              _toTime = '${time.hour},${time.minute}';
               setModalState(() {
                 toSubtitle = time.toString();
               });
@@ -328,61 +407,49 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          //StreamBuilder(
-          //   stream: db
-          //       .collection("bell_01").document("alarm")
-          //       .snapshots(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.hasError) {
-          //       return Text("Server Error!");
-          //     } else if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return Stack(
-          //         children: <Widget>[
-          //           Container(child:Text("Loading....."))
-          //         ],
-          //       );
-          //     }else{
-          //       return
-          ListView(
-        children: <Widget>[
-          ExpansionTile(
-            title: Text("Monday"),
-            children: <Widget>[
-              ListTile(
-                title: Text('From'),
-                trailing: Icon(Icons.access_time),
-                onTap: () {},
-              ),
-              ListTile(
-                title: Text('To'),
-                trailing: Icon(Icons.access_time),
-                onTap: () {},
-              ),
-              Center(
-                  child: Text(
-                "Remove Alarm",
-                style: TextStyle(color: Colors.red),
-              ))
-            ],
-          ),
-
-          // snapshot.data["Monday"][0] == false?   ListTile(
-          //     title:Text(snapshot.data["Monday"][1].toString()),
-          //     trailing: GestureDetector(
-          //     onTap: (){
-          //       if(snapshot.data["Monday"][0] == true){
-          //         return _showModalBottomSheet();
-          //       }
-          //     },
-          //       child:Icon(snapshot.data["Monday"][0] == true?Icons.cancel:Icons.done,
-          //     color: snapshot.data["Monday"][0] == true ? Colors.red:Colors.green,
-          //     )),
-          //     ):Container(),
-        ],
-      ),
-      //   }
-      // }),
+      body: StreamBuilder(
+          stream: db.collection("bell_01").document("alarm").snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text("Server Error!");
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Stack(
+                children: <Widget>[
+                  Container(child: Center(child: CircularProgressIndicator()))
+                ],
+              );
+            } else {
+              return ListView.builder(
+                  itemCount: 7,
+                  itemBuilder: (ctx, index) {
+                    var currentItem = snapshot.data[weekDays[index]];
+                    return ExpansionTile(
+                      title: Text(currentItem[1]),
+                      children: <Widget>[
+                        ListTile(
+                          title: Text('From'),
+                          subtitle: Text(currentItem[2]),
+                          trailing: Icon(Icons.access_time),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          title: Text('To'),
+                          subtitle: Text(currentItem[3]),
+                          trailing: Icon(Icons.access_time),
+                          onTap: () {},
+                        ),
+                        Center(
+                            child: FlatButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "Remove Alarm",
+                                  style: TextStyle(color: Colors.red),
+                                )))
+                      ],
+                    );
+                  });
+            }
+          }),
       //-----------------------------
       floatingActionButton: Container(
         height: 50,

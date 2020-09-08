@@ -14,4 +14,7 @@ class AppConstants {
   static const String passwordValidation = 'Password is at least 8 characters';
   static const String confirmPasswordTextFieldLabel = 'Confirm Password';
   static const String repeatPasswordValidation = 'Password not matched';
+
+  //Shared Preferences Keys
+  static const String isLoggedIn = 'isLoggedIn';
 }
