@@ -20,4 +20,16 @@ class AlarmModel {
       to: data[3],
     );
   }
+
+  Map<String, dynamic> toMap() => {
+        'name': day,
+        'isActive': isActive,
+        'from': from,
+        'to': to,
+      };
+
+  toJSON(AlarmModel obj) {
+    final data = obj.toMap();
+    return data;
+  }
 }

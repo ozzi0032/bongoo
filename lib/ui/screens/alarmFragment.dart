@@ -18,15 +18,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   bool _friday = false;
   bool _saturday = false;
   bool _sunday = false;
-  List<String> weekDays = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
+
   String _fromTime = '12,00';
   String _toTime = '00,00';
 
@@ -35,94 +27,63 @@ class _AlarmFragmentState extends State<AlarmFragment> {
 
   Firestore db = Firestore.instance;
 
-  Map<String, dynamic> alarmMap = {
-    'Monday': null,
-    'Tuesday': null,
-    'Wednesday': null,
-    'Thursday': null,
-    'Friday': null,
-    'Saturday': null,
-    'Sunday': null,
-  };
-  List<dynamic> mondayList = List<dynamic>();
-  List<dynamic> tuesdayList = List<dynamic>();
-  List<dynamic> wednesdayList = List<dynamic>();
-  List<dynamic> thursdayList = List<dynamic>();
-  List<dynamic> fridayList = List<dynamic>();
-  List<dynamic> saturdayList = List<dynamic>();
-  List<dynamic> sundayList = List<dynamic>();
   _setAlarm() {
     if (_monday) {
-      mondayList = List<dynamic>();
-      AlarmModel monObj = new AlarmModel();
-      mondayList.add(monObj.isActive = true);
-      mondayList.add(monObj.day = 'Monday');
-      mondayList.add(monObj.from = _fromTime);
-      mondayList.add(monObj.to = _toTime);
-      alarmMap.update('Monday', (value) => mondayList,
-          ifAbsent: () => mondayList);
+      AlarmModel obj = new AlarmModel();
+      obj.day = 'Monday';
+      obj.isActive = true;
+      obj.from = _fromTime;
+      obj.to = _toTime;
+      FirebaseFunctions.addAlarmMonday(obj);
     }
     if (_tuesday) {
-      tuesdayList = List<dynamic>();
-      AlarmModel tueObj = new AlarmModel();
-      tuesdayList.add(tueObj.isActive = true);
-      tuesdayList.add(tueObj.day = 'Tuesday');
-      tuesdayList.add(tueObj.from = _fromTime);
-      tuesdayList.add(tueObj.to = _toTime);
-      alarmMap.update('Tuesday', (value) => tuesdayList,
-          ifAbsent: () => tuesdayList);
+      AlarmModel obj = new AlarmModel();
+      obj.day = 'Tuesday';
+      obj.isActive = true;
+      obj.from = _fromTime;
+      obj.to = _toTime;
+      FirebaseFunctions.addAlarmTuesday(obj);
     }
     if (_wednesday) {
-      wednesdayList = List<dynamic>();
-      AlarmModel wedObj = new AlarmModel();
-      wednesdayList.add(wedObj.isActive = true);
-      wednesdayList.add(wedObj.day = 'Wednesday');
-      wednesdayList.add(wedObj.from = _fromTime);
-      wednesdayList.add(wedObj.to = _toTime);
-      alarmMap.update('Wednesday', (value) => wednesdayList,
-          ifAbsent: () => wednesdayList);
+      AlarmModel obj = new AlarmModel();
+      obj.day = 'Wednesday';
+      obj.isActive = true;
+      obj.from = _fromTime;
+      obj.to = _toTime;
+      FirebaseFunctions.addAlarmWednesday(obj);
     }
     if (_thursday) {
-      thursdayList = List<dynamic>();
-      AlarmModel thurObj = new AlarmModel();
-      thursdayList.add(thurObj.isActive = true);
-      thursdayList.add(thurObj.day = 'Thursday');
-      thursdayList.add(thurObj.from = _fromTime);
-      thursdayList.add(thurObj.to = _toTime);
-      alarmMap.update('Thursday', (value) => thursdayList,
-          ifAbsent: () => thursdayList);
+      AlarmModel obj = new AlarmModel();
+      obj.day = 'Thursday';
+      obj.isActive = true;
+      obj.from = _fromTime;
+      obj.to = _toTime;
+      FirebaseFunctions.addAlarmThursday(obj);
     }
     if (_friday) {
-      fridayList = List<dynamic>();
-      AlarmModel friObj = new AlarmModel();
-      fridayList.add(friObj.isActive = true);
-      fridayList.add(friObj.day = 'Friday');
-      fridayList.add(friObj.from = _fromTime);
-      fridayList.add(friObj.to = _toTime);
-      alarmMap.update('Friday', (value) => fridayList,
-          ifAbsent: () => fridayList);
+      AlarmModel obj = new AlarmModel();
+      obj.day = 'Friday';
+      obj.isActive = true;
+      obj.from = _fromTime;
+      obj.to = _toTime;
+      FirebaseFunctions.addAlarmFriday(obj);
     }
     if (_saturday) {
-      saturdayList = List<dynamic>();
-      AlarmModel satObj = new AlarmModel();
-      saturdayList.add(satObj.isActive = true);
-      saturdayList.add(satObj.day = 'Saturday');
-      saturdayList.add(satObj.from = _fromTime);
-      saturdayList.add(satObj.to = _toTime);
-      alarmMap.update('Saturday', (value) => saturdayList,
-          ifAbsent: () => saturdayList);
+      AlarmModel obj = new AlarmModel();
+      obj.day = 'Saturday';
+      obj.isActive = true;
+      obj.from = _fromTime;
+      obj.to = _toTime;
+      FirebaseFunctions.addAlarmSaturday(obj);
     }
     if (_sunday) {
-      sundayList = List<dynamic>();
-      AlarmModel sunObj = new AlarmModel();
-      sundayList.add(sunObj.isActive = true);
-      sundayList.add(sunObj.day = 'Sunday');
-      sundayList.add(sunObj.from = _fromTime);
-      sundayList.add(sunObj.to = _toTime);
-      alarmMap.update('Sunday', (value) => sundayList,
-          ifAbsent: () => sundayList);
+      AlarmModel obj = new AlarmModel();
+      obj.day = 'Sunday';
+      obj.isActive = true;
+      obj.from = _fromTime;
+      obj.to = _toTime;
+      FirebaseFunctions.addAlarmSunday(obj);
     }
-    FirebaseFunctions.addAlarm(alarmMap);
   }
 
   _showModalBottomSheet() {
@@ -408,7 +369,11 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          stream: db.collection("bell_01").document('alarm').snapshots(),
+          stream: db
+              .collection("bell_01")
+              .document('alarm')
+              .collection('Alarms')
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Text("Server Error!");
@@ -419,42 +384,30 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                 ],
               );
             } else {
-              var length = snapshot.data;
-
-              print(length.data["day1"]);
-
-              int counter = 0;
-              final Map<dynamic, dynamic> map = length.data;
-              map.forEach((key, value) {
-                print(key.toString() + " 34545 " + value[0].toString());
-                counter++;
-                print("Value number" + counter.toString());
-              });
-
               return ListView.builder(
-                  itemCount:
-                      counter, //length(snapshot),//snapshot.data.documents.length,
+                  itemCount: snapshot.data.documents.length,
                   itemBuilder: (ctx, index) {
-                    DocumentSnapshot ds = snapshot.data;
-                    //var currentItem = snapshot.data[weekDays[index]];
+                    DocumentSnapshot ds = snapshot.data.documents[index];
                     return ExpansionTile(
-                      title: Text(ds.data["day1"][1].toString()),
+                      title: Text(ds.data['name']),
                       children: <Widget>[
                         ListTile(
                           title: Text('From'),
-                          subtitle: Text(ds.data["day2"][1].toString()),
+                          subtitle: Text(ds.data['from']),
                           trailing: Icon(Icons.access_time),
                           onTap: () {},
                         ),
                         ListTile(
                           title: Text('To'),
-                          subtitle: Text("currentItem[3]"),
+                          subtitle: Text(ds.data['to']),
                           trailing: Icon(Icons.access_time),
                           onTap: () {},
                         ),
                         Center(
                             child: FlatButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  FirebaseFunctions.removeAlarm(ds.documentID);
+                                },
                                 child: Text(
                                   "Remove Alarm",
                                   style: TextStyle(color: Colors.red),
