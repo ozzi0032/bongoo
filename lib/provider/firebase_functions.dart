@@ -15,6 +15,17 @@ class FirebaseFunctions {
     return dr.get();
   }
 
+  static Future verifyBellId(String id) async {
+    try {
+      var snapshot = await db.collection(id).getDocuments();
+      if (snapshot.documents.length > 0)
+        return true;
+      else
+        return false;
+    } catch (e) {
+      return false;
+    }
+  }
   // static addAlarm(Map<String, dynamic> alarmMap) async {
   //   DocumentReference doc = db.collection("bell_01").document("alarm").collection("Alarms").document("123");
   //   print(alarmMap);
