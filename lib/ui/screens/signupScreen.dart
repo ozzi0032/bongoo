@@ -37,6 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
         backgroundColor: const Color(0xff8dc1d1),
         body: Form(
+          key: formKey,
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: <Widget>[
@@ -57,50 +58,57 @@ class _SignupScreenState extends State<SignupScreen> {
                 image: AssetImage('assets/bell_icon.png'),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.17,
                 width: MediaQuery.of(context).size.width,
                 child: AppCustomTextField(
                   labelText: AppConstants.bellIdTextFieldLabel,
                   keyboardType: TextInputType.emailAddress,
                   controller: _bellCodeController,
+                  hasValidation: true,
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.17,
                 width: MediaQuery.of(context).size.width,
                 child: AppCustomTextField(
                   labelText: AppConstants.emailTextFieldLabel,
                   keyboardType: TextInputType.emailAddress,
                   controller: _emailController,
+                  hasValidation: true,
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.17,
                 width: MediaQuery.of(context).size.width,
                 child: AppCustomTextField(
                   labelText: AppConstants.confirmEmailTextFieldLabel,
                   keyboardType: TextInputType.emailAddress,
                   controller: _confirmEmailController,
+                  hasValidation: true,
+                  subStr: _emailController.text,
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.17,
                 width: MediaQuery.of(context).size.width,
                 child: AppCustomTextField(
                   labelText: AppConstants.passwordTextFieldLabel,
                   obscure: true,
                   keyboardType: TextInputType.text,
                   controller: _passwordController,
+                  hasValidation: true,
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.17,
                 width: MediaQuery.of(context).size.width,
                 child: AppCustomTextField(
                   labelText: AppConstants.confirmPasswordTextFieldLabel,
                   obscure: true,
                   keyboardType: TextInputType.text,
                   controller: _confirmPasswordController,
+                  hasValidation: true,
+                  subStr: _passwordController.text,
                 ),
               ),
               Container(
@@ -148,22 +156,28 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   userSignup() async {
-    pr.show();
-    //if (formKey.currentState.validate()) {
-    try {
-      FirebaseUser user = (await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(
-                  email: _emailController.text,
-                  password: _passwordController.text))
-          .user;
-      _addUserToDB(user.uid); //To keep record of user information
-      pr.hide();
-      _successDialog();
-    } catch (e) {
-      pr.hide();
-      _errorDialog(e.code);
+    if (formKey.currentState.validate()) {
+      pr.show();
+      var _bellIdExists = await FirebaseFunctions.verifyBellId(
+          _bellCodeController.text.toString());
+      if (_bellIdExists) {
+        try {
+          FirebaseUser user = (await FirebaseAuth.instance
+                  .createUserWithEmailAndPassword(
+                      email: _emailController.text,
+                      password: _passwordController.text))
+              .user;
+          _addUserToDB(user.uid); //To keep record of user information
+          pr.hide();
+          _successDialog();
+        } catch (e) {
+          pr.hide();
+          _errorDialog(e.code);
+        }
+      } else
+        pr.hide();
+      _errorDialog('Invalid Bell Code');
     }
-    //}
   }
 
   _addUserToDB(String uid) async {

@@ -5,6 +5,7 @@ class AppConstants {
   static const String registerSuccessText = 'User Successfully Registered';
   //Textform Fields Labels
   static const String bellIdTextFieldLabel = 'Bell Code';
+  static const String bellIdValidation = 'Bell Code should not be empty';
   static const String usernameTextFieldLabel = 'Username';
   static const String emailTextFieldLabel = 'Email Address';
   static const String emailValidation = 'Please enter a valid email';
