@@ -438,31 +438,4 @@ class _AlarmFragmentState extends State<AlarmFragment> {
       ),
     );
   }
-
-  int length(AsyncSnapshot snapshot) {
-    DocumentSnapshot docs = snapshot.data;
-    int counter = 0;
-    if (docs.data["Monday"][0]) {
-      counter++;
-    }
-    if (docs.data["Tuesday"][0]) {
-      counter++;
-    }
-    if (docs.data["Wednesday"][0]) {
-      counter++;
-    }
-    if (docs.data["Thursday"][0]) {
-      counter++;
-    }
-    if (docs.data["Friday"][0]) {
-      counter++;
-    }
-    if (docs.data["Saturday"][0]) {
-      counter++;
-    }
-    if (docs.data["Sunday"][0]) {
-      counter++;
-    }
-    return counter;
-  }
 }
