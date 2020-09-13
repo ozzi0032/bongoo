@@ -33,6 +33,23 @@ class FirebaseFunctions {
       return false;
     }
   }
+
+  static Future<bool> doesUserExist(String uid) async {
+    try {
+      var snapshot = await db
+          .collection(AppConstants.bellID)
+          .where("userId", isEqualTo: uid)
+          .limit(1)
+          .getDocuments();
+
+      if (snapshot.documents.length > 0)
+        return true;
+      else
+        return false;
+    } catch (e) {
+      return false;
+    }
+  }
   // static addAlarm(Map<String, dynamic> alarmMap) async {
   //   DocumentReference doc = db.collection("bell_01").document("alarm").collection("Alarms").document("123");
   //   print(alarmMap);

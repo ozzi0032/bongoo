@@ -156,30 +156,31 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   userSignup() async {
-    //if (formKey.currentState.validate()) {
-    //pr.show();
-    bool _bellIdExists =
-       await FirebaseFunctions.verifyBellId(_bellCodeController.text.toString());
-    if (_bellIdExists) {
-      try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
-                    email: _emailController.text,
-                    password: _passwordController.text))
-            .user;
-            AppConstants.bellID = _bellCodeController.text;
-        _addUserToDB(user.uid); //To keep record of user information
-        //pr.hide();
+    if (formKey.currentState.validate()) {
+      pr.show();
+      bool _bellIdExists = await FirebaseFunctions.verifyBellId(
+          _bellCodeController.text.toString());
+      if (_bellIdExists) {
+        try {
+          FirebaseUser user = (await FirebaseAuth.instance
+                  .createUserWithEmailAndPassword(
+                      email: _emailController.text,
+                      password: _passwordController.text))
+              .user;
+          AppConstants.bellID = _bellCodeController.text;
+          _addUserToDB(user.uid); //To keep record of user information
+          pr.hide();
 
-        _successDialog();
-      } catch (e) {
-        //pr.hide();
-        _errorDialog(e.code);
+          _successDialog();
+        } catch (e) {
+          pr.hide();
+          _errorDialog(e.code);
+        }
+      } else {
+        pr.hide();
+        _errorDialog('Invalid Bell Code');
       }
-    } else
-      //pr.hide();
-    _errorDialog('Invalid Bell Code');
-    //}
+    }
   }
 
   _addUserToDB(String uid) async {

@@ -41,104 +41,107 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     return Scaffold(
       backgroundColor: const Color(0xfffecb65),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: <Widget>[
-          Text(
-            'Bongoo',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.lato(
-              color: Colors.white,
-              textStyle: Theme.of(context).textTheme.bodyText2,
-              fontSize: 48,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          Image(
-            fit: BoxFit.contain,
-            height: MediaQuery.of(context).size.height * 0.4,
-            width: MediaQuery.of(context).size.width * 0.4,
-            image: AssetImage('assets/bell_icon.png'),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.15,
-            width: MediaQuery.of(context).size.width,
-            child: AppCustomTextField(
-              labelText: AppConstants.usernameTextFieldLabel,
-              keyboardType: TextInputType.emailAddress,
-              controller: _usernameController,
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.15,
-            width: MediaQuery.of(context).size.width,
-            child: AppCustomTextField(
-              labelText: AppConstants.passwordTextFieldLabel,
-              obscure: true,
-              keyboardType: TextInputType.text,
-              controller: _passwordController,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              userLogin();
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Colors.white, width: 1.5)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Login',
-                    style: GoogleFonts.lato(
-                      color: Colors.white,
-                      textStyle: Theme.of(context).textTheme.bodyText2,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.13,
-                    width: MediaQuery.of(context).size.width * 0.13,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 30,
-                      color: const Color(0xfffecb65),
-                    ),
-                  )
-                ],
+      body: Form(
+        key: formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: <Widget>[
+            Text(
+              'Bongoo',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.lato(
+                color: Colors.white,
+                textStyle: Theme.of(context).textTheme.bodyText2,
+                fontSize: 48,
+                fontWeight: FontWeight.w700,
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext ctx) => SignupScreen()));
-                },
-                child: Text(
-                  'Sign Up',
-                  textAlign: TextAlign.right,
+            Image(
+              fit: BoxFit.contain,
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width * 0.4,
+              image: AssetImage('assets/bell_icon.png'),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.17,
+              width: MediaQuery.of(context).size.width,
+              child: AppCustomTextField(
+                labelText: AppConstants.usernameTextFieldLabel,
+                keyboardType: TextInputType.emailAddress,
+                controller: _usernameController,
+                hasValidation: true,
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.17,
+              width: MediaQuery.of(context).size.width,
+              child: AppCustomTextField(
+                labelText: AppConstants.passwordTextFieldLabel,
+                obscure: true,
+                keyboardType: TextInputType.text,
+                controller: _passwordController,
+                hasValidation: true,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                userLogin();
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: Colors.white, width: 1.5)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Login',
+                      style: GoogleFonts.lato(
+                        color: Colors.white,
+                        textStyle: Theme.of(context).textTheme.bodyText2,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.13,
+                      width: MediaQuery.of(context).size.width * 0.13,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Icon(
+                        Icons.arrow_forward,
+                        size: 30,
+                        color: const Color(0xfffecb65),
+                      ),
+                    )
+                  ],
                 ),
               ),
-            ],
-          )
-        ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                MaterialButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext ctx) => SignupScreen()));
+                  },
+                  child: Text(
+                    'Sign Up',
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -158,24 +161,28 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   userLogin() async {
-    pr.show();
-    //if (formKey.currentState.validate()) {
-    //try {
-    bool _bellIdExists =
-        await FirebaseFunctions.verifyBellId(AppConstants.bellID);
-    if (_bellIdExists) {
+    if (formKey.currentState.validate()) {
+      pr.show();
+
       try {
         final FirebaseUser user = (await FirebaseAuth.instance
                 .signInWithEmailAndPassword(
                     email: _usernameController.text,
                     password: _passwordController.text))
             .user;
-        firebaseMessaging.subscribeToTopic('BongoAlerts');
-        pr.hide();
-        _configure();
-        SharedPrefs.setLoginStatus(true);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+        bool userExists = await FirebaseFunctions.doesUserExist(user.uid);
+        if (userExists) {
+          firebaseMessaging.subscribeToTopic('BongoAlerts');
+          pr.hide();
+          _configure();
+          SharedPrefs.setLoginStatus(true);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+        } else {
+          pr.hide();
+          errorMessage = "User not found";
+          errorMessageDialog();
+        }
       } catch (e) {
         pr.hide();
         switch (e.code) {
@@ -203,47 +210,6 @@ class _LoginScreenState extends State<LoginScreen> {
         errorMessageDialog();
       }
     }
-    //   final FirebaseUser user = (await FirebaseAuth.instance
-    //           .signInWithEmailAndPassword(
-    //               email: _usernameController.text,
-    //               password: _passwordController.text))
-    //       .user;
-    //   firebaseMessaging.subscribeToTopic('BongoAlerts');
-    //   pr.hide();
-    //   //Configure to the push notifications
-    //   _configure();
-    //   //await setUserProfileInfo(user.email);
-    //   //Set login Session
-    //   SharedPrefs.setLoginStatus(true);
-    //   Navigator.pushReplacement(context,
-    //       MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
-    // } catch (e) {
-    //   pr.hide();
-    //   switch (e.code) {
-    //     case "ERROR_INVALID_EMAIL":
-    //       errorMessage = "Your email address appears to be malformed.";
-    //       break;
-    //     case "ERROR_WRONG_PASSWORD":
-    //       errorMessage = "Your password is wrong.";
-    //       break;
-    //     case "ERROR_USER_NOT_FOUND":
-    //       errorMessage = "User with this email doesn't exist.";
-    //       break;
-    //     case "ERROR_USER_DISABLED":
-    //       errorMessage = "User with this email has been disabled.";
-    //       break;
-    //     case "ERROR_TOO_MANY_REQUESTS":
-    //       errorMessage = "Too many requests. Try again later.";
-    //       break;
-    //     case "ERROR_OPERATION_NOT_ALLOWED":
-    //       errorMessage = "Signing in with Email and Password is not enabled.";
-    //       break;
-    //     default:
-    //       errorMessage = "An undefined Error happened.";
-    //   }
-    //   errorMessageDialog();
-    //   //}
-    //}
   }
 
   errorMessageDialog() {

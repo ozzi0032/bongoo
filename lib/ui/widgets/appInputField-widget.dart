@@ -59,6 +59,9 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
       case AppConstants.bellIdTextFieldLabel:
         return value.length < 1 ? AppConstants.bellIdValidation : null;
         break;
+      case AppConstants.usernameTextFieldLabel:
+        return !value.contains('@') ? AppConstants.usernameValidation : null;
+        break;
       case AppConstants.emailTextFieldLabel:
         return !value.contains('@') ? AppConstants.emailValidation : null;
         break;
@@ -68,7 +71,7 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
             : null;
         break;
       case AppConstants.passwordTextFieldLabel:
-        return value.length < 8 ? AppConstants.passwordValidation : null;
+        return value.length < 6 ? AppConstants.passwordValidation : null;
         break;
       case AppConstants.confirmPasswordTextFieldLabel:
         return value != widget.subStr
