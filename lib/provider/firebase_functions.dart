@@ -3,12 +3,12 @@ import 'package:bongoo/model/user_model.dart';
 import 'package:bongoo/model/alarm_model.dart';
 import 'package:bongoo/utils/appConstants.dart';
 
-
 class FirebaseFunctions {
   static Firestore db = Firestore.instance;
 
   static Future addUser(UserModel obj) async {
-    DocumentReference dr = db.collection(AppConstants.bellID).document(obj.userId);
+    DocumentReference dr =
+        db.collection(AppConstants.bellID).document(obj.userId);
     await dr.setData(obj.toJSON(obj));
   }
 
@@ -19,8 +19,12 @@ class FirebaseFunctions {
 
   static Future<bool> verifyBellId(String id) async {
     try {
-      var snapshot = await db.collection("bell_IDs").where("id",isEqualTo: id).limit(1).getDocuments();
-      
+      var snapshot = await db
+          .collection("bell_IDs")
+          .where("id", isEqualTo: id)
+          .limit(1)
+          .getDocuments();
+
       if (snapshot.documents.length > 0)
         return true;
       else
@@ -41,7 +45,7 @@ class FirebaseFunctions {
 
   static addAlarmMonday(AlarmModel monday) async {
     DocumentReference doc = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document("Monday");
@@ -54,7 +58,7 @@ class FirebaseFunctions {
 
   static addAlarmTuesday(AlarmModel tuesday) async {
     DocumentReference doc = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document("Tuesday");
@@ -67,7 +71,7 @@ class FirebaseFunctions {
 
   static addAlarmWednesday(AlarmModel wed) async {
     DocumentReference doc = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document("Wednesday");
@@ -80,7 +84,7 @@ class FirebaseFunctions {
 
   static addAlarmThursday(AlarmModel thur) async {
     DocumentReference doc = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document("Thursday");
@@ -93,7 +97,7 @@ class FirebaseFunctions {
 
   static addAlarmFriday(AlarmModel fri) async {
     DocumentReference doc = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document("Friday");
@@ -106,7 +110,7 @@ class FirebaseFunctions {
 
   static addAlarmSaturday(AlarmModel sat) async {
     DocumentReference doc = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document("Saturday");
@@ -119,7 +123,7 @@ class FirebaseFunctions {
 
   static addAlarmSunday(AlarmModel sun) async {
     DocumentReference doc = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document("Sunday");
@@ -132,7 +136,7 @@ class FirebaseFunctions {
 
   static removeAlarm(String id) {
     DocumentReference ref = db
-        .collection("bell_01")
+        .collection(AppConstants.bellID)
         .document("alarm")
         .collection("Alarms")
         .document(id);
@@ -140,7 +144,8 @@ class FirebaseFunctions {
   }
 
   static setEmergency(bool flag) async {
-    DocumentReference doc = db.collection("bell_01").document("emergencyAlarm");
+    DocumentReference doc =
+        db.collection(AppConstants.bellID).document("emergencyAlarm");
     await doc.updateData({
       'isActive': flag,
     }).whenComplete(() {});

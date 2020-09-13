@@ -1,4 +1,5 @@
 import 'package:bongoo/provider/firebase_functions.dart';
+import 'package:bongoo/utils/appConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -370,7 +371,7 @@ class _AlarmFragmentState extends State<AlarmFragment> {
     return Scaffold(
       body: StreamBuilder(
           stream: db
-              .collection("bell_01")
+              .collection(AppConstants.bellID)
               .document('alarm')
               .collection('Alarms')
               .snapshots(),
@@ -388,32 +389,36 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (ctx, index) {
                     DocumentSnapshot ds = snapshot.data.documents[index];
-                    return ExpansionTile(
-                      title: Text(ds.data['name']),
-                      children: <Widget>[
-                        ListTile(
-                          title: Text('From'),
-                          subtitle: Text(ds.data['from']),
-                          trailing: Icon(Icons.access_time),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          title: Text('To'),
-                          subtitle: Text(ds.data['to']),
-                          trailing: Icon(Icons.access_time),
-                          onTap: () {},
-                        ),
-                        Center(
-                            child: FlatButton(
-                                onPressed: () {
-                                  FirebaseFunctions.removeAlarm(ds.documentID);
-                                },
-                                child: Text(
-                                  "Remove Alarm",
-                                  style: TextStyle(color: Colors.red),
-                                )))
-                      ],
-                    );
+                    if (ds.data['isActive']) {
+                      return ExpansionTile(
+                        title: Text(ds.data['name']),
+                        children: <Widget>[
+                          ListTile(
+                            title: Text('From'),
+                            subtitle: Text(ds.data['from']),
+                            trailing: Icon(Icons.access_time),
+                            onTap: () {},
+                          ),
+                          ListTile(
+                            title: Text('To'),
+                            subtitle: Text(ds.data['to']),
+                            trailing: Icon(Icons.access_time),
+                            onTap: () {},
+                          ),
+                          Center(
+                              child: FlatButton(
+                                  onPressed: () {
+                                    FirebaseFunctions.removeAlarm(
+                                        ds.documentID);
+                                  },
+                                  child: Text(
+                                    "Remove Alarm",
+                                    style: TextStyle(color: Colors.red),
+                                  )))
+                        ],
+                      );
+                    } else
+                      return Container();
                   });
             }
           }),

@@ -1,4 +1,5 @@
 import 'package:bongoo/UI/screens/signupScreen.dart';
+import 'package:bongoo/provider/firebase_functions.dart';
 import 'package:bongoo/ui/screens/home.dart';
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
 import 'package:bongoo/utils/appConstants.dart';
@@ -159,48 +160,90 @@ class _LoginScreenState extends State<LoginScreen> {
   userLogin() async {
     pr.show();
     //if (formKey.currentState.validate()) {
-    try {
-      final FirebaseUser user = (await FirebaseAuth.instance
-              .signInWithEmailAndPassword(
-                  email: _usernameController.text,
-                  password: _passwordController.text))
-          .user;
-      firebaseMessaging.subscribeToTopic('BongoAlerts');
-      pr.hide();
-      //Configure to the push notifications
-      _configure();
-      //await setUserProfileInfo(user.email);
-      //Set login Session
-      SharedPrefs.setLoginStatus(true);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
-    } catch (e) {
-      pr.hide();
-      switch (e.code) {
-        case "ERROR_INVALID_EMAIL":
-          errorMessage = "Your email address appears to be malformed.";
-          break;
-        case "ERROR_WRONG_PASSWORD":
-          errorMessage = "Your password is wrong.";
-          break;
-        case "ERROR_USER_NOT_FOUND":
-          errorMessage = "User with this email doesn't exist.";
-          break;
-        case "ERROR_USER_DISABLED":
-          errorMessage = "User with this email has been disabled.";
-          break;
-        case "ERROR_TOO_MANY_REQUESTS":
-          errorMessage = "Too many requests. Try again later.";
-          break;
-        case "ERROR_OPERATION_NOT_ALLOWED":
-          errorMessage = "Signing in with Email and Password is not enabled.";
-          break;
-        default:
-          errorMessage = "An undefined Error happened.";
+    //try {
+    bool _bellIdExists =
+        await FirebaseFunctions.verifyBellId(AppConstants.bellID);
+    if (_bellIdExists) {
+      try {
+        final FirebaseUser user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+                    email: _usernameController.text,
+                    password: _passwordController.text))
+            .user;
+        firebaseMessaging.subscribeToTopic('BongoAlerts');
+        pr.hide();
+        _configure();
+        SharedPrefs.setLoginStatus(true);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+      } catch (e) {
+        pr.hide();
+        switch (e.code) {
+          case "ERROR_INVALID_EMAIL":
+            errorMessage = "Your email address appears to be malformed.";
+            break;
+          case "ERROR_WRONG_PASSWORD":
+            errorMessage = "Your password is wrong.";
+            break;
+          case "ERROR_USER_NOT_FOUND":
+            errorMessage = "User with this email doesn't exist.";
+            break;
+          case "ERROR_USER_DISABLED":
+            errorMessage = "User with this email has been disabled.";
+            break;
+          case "ERROR_TOO_MANY_REQUESTS":
+            errorMessage = "Too many requests. Try again later.";
+            break;
+          case "ERROR_OPERATION_NOT_ALLOWED":
+            errorMessage = "Signing in with Email and Password is not enabled.";
+            break;
+          default:
+            errorMessage = "An undefined Error happened.";
+        }
+        errorMessageDialog();
       }
-      errorMessageDialog();
-      //}
     }
+    //   final FirebaseUser user = (await FirebaseAuth.instance
+    //           .signInWithEmailAndPassword(
+    //               email: _usernameController.text,
+    //               password: _passwordController.text))
+    //       .user;
+    //   firebaseMessaging.subscribeToTopic('BongoAlerts');
+    //   pr.hide();
+    //   //Configure to the push notifications
+    //   _configure();
+    //   //await setUserProfileInfo(user.email);
+    //   //Set login Session
+    //   SharedPrefs.setLoginStatus(true);
+    //   Navigator.pushReplacement(context,
+    //       MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
+    // } catch (e) {
+    //   pr.hide();
+    //   switch (e.code) {
+    //     case "ERROR_INVALID_EMAIL":
+    //       errorMessage = "Your email address appears to be malformed.";
+    //       break;
+    //     case "ERROR_WRONG_PASSWORD":
+    //       errorMessage = "Your password is wrong.";
+    //       break;
+    //     case "ERROR_USER_NOT_FOUND":
+    //       errorMessage = "User with this email doesn't exist.";
+    //       break;
+    //     case "ERROR_USER_DISABLED":
+    //       errorMessage = "User with this email has been disabled.";
+    //       break;
+    //     case "ERROR_TOO_MANY_REQUESTS":
+    //       errorMessage = "Too many requests. Try again later.";
+    //       break;
+    //     case "ERROR_OPERATION_NOT_ALLOWED":
+    //       errorMessage = "Signing in with Email and Password is not enabled.";
+    //       break;
+    //     default:
+    //       errorMessage = "An undefined Error happened.";
+    //   }
+    //   errorMessageDialog();
+    //   //}
+    //}
   }
 
   errorMessageDialog() {
