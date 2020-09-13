@@ -1,5 +1,6 @@
 import 'package:bongoo/provider/firebase_functions.dart';
 import 'package:bongoo/utils/appConstants.dart';
+import 'package:bongoo/utils/time_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -23,8 +24,8 @@ class _AlarmFragmentState extends State<AlarmFragment> {
   String _fromTime = '12,00';
   String _toTime = '00,00';
 
-  String fromSubtitle = DateTime.now().toString();
-  String toSubtitle = DateTime.now().toString();
+  String fromSubtitle = DateTimeHelper.getFormattedTime(DateTime.now());
+  String toSubtitle = DateTimeHelper.getFormattedTime(DateTime.now());
 
   Firestore db = Firestore.instance;
 
@@ -140,10 +141,9 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                   containerHeight: MediaQuery.of(context).size.height * 0.3,
                 ),
                 showTitleActions: true, onConfirm: (time) {
-              print('***************************************from $time');
               _fromTime = '${time.hour},${time.minute}';
               setModalState(() {
-                fromSubtitle = time.toString();
+                fromSubtitle = DateTimeHelper.getFormattedTime(time);
               });
             }, currentTime: DateTime.now(), locale: LocaleType.en);
           },
@@ -158,10 +158,9 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                   containerHeight: MediaQuery.of(context).size.height * 0.3,
                 ),
                 showTitleActions: true, onConfirm: (time) {
-              print('***************************************too $time');
               _toTime = '${time.hour},${time.minute}';
               setModalState(() {
-                toSubtitle = time.toString();
+                toSubtitle = DateTimeHelper.getFormattedTime(time);
               });
             }, currentTime: DateTime.now(), locale: LocaleType.en);
           },
