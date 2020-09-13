@@ -365,6 +365,15 @@ class _AlarmFragmentState extends State<AlarmFragment> {
     );
   }
 
+  _splitTimeString(String timeString) {
+    List time = timeString.split(",");
+    int hour = int.parse(time[0]);
+    int minutes = int.parse(time[1]);
+    String formattedTime =
+        DateTimeHelper.getFormattedTimeFromHourMinutes(hour, minutes);
+    return formattedTime;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -388,19 +397,23 @@ class _AlarmFragmentState extends State<AlarmFragment> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (ctx, index) {
                     DocumentSnapshot ds = snapshot.data.documents[index];
+
                     if (ds.data['isActive']) {
+                      //Split the time string from DB
+                      String fromTime = _splitTimeString(ds.data['from']);
+                      String toTime = _splitTimeString(ds.data['to']);
                       return ExpansionTile(
                         title: Text(ds.data['name']),
                         children: <Widget>[
                           ListTile(
                             title: Text('From'),
-                            subtitle: Text(ds.data['from']),
+                            subtitle: Text(fromTime),
                             trailing: Icon(Icons.access_time),
                             onTap: () {},
                           ),
                           ListTile(
                             title: Text('To'),
-                            subtitle: Text(ds.data['to']),
+                            subtitle: Text(toTime),
                             trailing: Icon(Icons.access_time),
                             onTap: () {},
                           ),
