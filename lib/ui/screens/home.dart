@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bongoo/ui/screens/emergencyFragment.dart';
+import 'package:bongoo/ui/screens/notificationFragment.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import './alarmFragment.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,20 +11,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
-    createData() {
-      DocumentReference documentReference =
-          Firestore.instance.collection("DateTime").document(formattedDate);
-      //  print("******document id******* "+ds.documentID);
-      Map<String, dynamic> date = {
-        "Date": formattedDate,
-      };
-      documentReference.setData(date).whenComplete(() {
-        print("$formattedDate created");
-      });
-    }
-
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
@@ -38,10 +24,10 @@ class _HomePageState extends State<HomePage> {
                   text: "Alarm",
                 ),
                 Tab(
-                  icon: Icon(Icons.access_time),
-                  text: "Clock",
+                  icon: Icon(Icons.phonelink_ring),
+                  text: "Emergency",
                 ),
-                Tab(icon: Icon(Icons.timer), text: "Timer"),
+                Tab(icon: Icon(Icons.notifications), text: "Notifications"),
               ],
             ),
             title: Text('Home'),
@@ -50,27 +36,8 @@ class _HomePageState extends State<HomePage> {
           body: TabBarView(
             children: [
               AlarmFragment(),
-              Center(
-                  child: Column(children: <Widget>[
-                Text(
-                  formattedDate,
-                  textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 25.0),
-                ),
-                SizedBox(
-                  width: 100.0,
-                  height: 50.0,
-                  child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Colors.blue,
-                      child: Text("Done"),
-                      onPressed: () {
-                        createData();
-                      }),
-                ),
-              ])),
-              Icon(Icons.timer),
+              EmergencyFragment(),
+              NotificationFragment(),
             ],
           ),
         ),

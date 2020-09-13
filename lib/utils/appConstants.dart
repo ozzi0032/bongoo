@@ -5,6 +5,7 @@ class AppConstants {
   static const String registerSuccessText = 'User Successfully Registered';
   //Textform Fields Labels
   static const String bellIdTextFieldLabel = 'Bell Code';
+  static const String bellIdValidation = 'Bell Code should not be empty';
   static const String usernameTextFieldLabel = 'Username';
   static const String emailTextFieldLabel = 'Email Address';
   static const String emailValidation = 'Please enter a valid email';
@@ -14,4 +15,8 @@ class AppConstants {
   static const String passwordValidation = 'Password is at least 8 characters';
   static const String confirmPasswordTextFieldLabel = 'Confirm Password';
   static const String repeatPasswordValidation = 'Password not matched';
+
+  //Shared Preferences Keys
+  static const String isLoggedIn = 'isLoggedIn';
+  static String bellID = "bell_01";
 }
