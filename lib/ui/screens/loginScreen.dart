@@ -3,6 +3,7 @@ import 'package:bongoo/provider/firebase_functions.dart';
 import 'package:bongoo/ui/screens/home.dart';
 import 'package:bongoo/ui/widgets/appInputField-widget.dart';
 import 'package:bongoo/utils/appConstants.dart';
+import 'package:bongoo/utils/notificationManagement.dart';
 import 'package:bongoo/utils/sharedPrefs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -85,7 +86,17 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             InkWell(
               onTap: () {
-                userLogin();
+                // userLogin();
+                isAppSubscribed().then((value) {
+              if (!value) {
+        AlertManagement.subscribeBell();
+             }
+            });
+pr.hide();
+          _configure();
+          SharedPrefs.setLoginStatus(true);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext ctx) => HomePage()));
               },
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.1,
@@ -159,6 +170,10 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
   }
+  Future<bool> isAppSubscribed() async {
+    var isSub = await SharedPrefs.getAppAlerts();
+    return isSub;
+  }
 
   userLogin() async {
     if (formKey.currentState.validate()) {
@@ -172,7 +187,17 @@ class _LoginScreenState extends State<LoginScreen> {
             .user;
         bool userExists = await FirebaseFunctions.doesUserExist(user.uid);
         if (userExists) {
-          firebaseMessaging.subscribeToTopic('BongoAlerts');
+          //apply logic here
+
+          isAppSubscribed().then((value) {
+              if (!value) {
+                
+        AlertManagement.subscribeBell();
+             }
+            });
+
+          //firebaseMessaging.subscribeToTopic('BongoAlerts');
+          //-------------------------
           pr.hide();
           _configure();
           SharedPrefs.setLoginStatus(true);

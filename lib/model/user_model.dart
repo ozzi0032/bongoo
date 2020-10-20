@@ -1,3 +1,8 @@
+
+class TopicSubscription {
+  static bool appAlert = false;
+}
+
 class UserModel {
   String bellId;
   String userId;
