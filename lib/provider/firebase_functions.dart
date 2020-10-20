@@ -14,6 +14,7 @@ class FirebaseFunctions {
 
   static Future getUser(String email) async {
     DocumentReference dr = db.collection('Users').document(email);
+
     return dr.get();
   }
 
@@ -167,4 +168,25 @@ class FirebaseFunctions {
       'isActive': flag,
     }).whenComplete(() {});
   }
-}
+
+  static setBellAlert(bool val) async {
+    DocumentReference doc =
+        db.collection(AppConstants.bellID).document("flag");
+    await doc.setData({
+      'isRinging': val,
+    }).whenComplete(() {
+
+      print("------------------------");
+    print("value set for alert flag is "+val.toString());
+          print("------------------------");
+    });
+  }
+  static Future<bool> getBellAlert() async {
+   bool bellalertValue;
+  //  Future<QuerySnapshot> query = db.collection('Users').getDocuments();
+  //  query.then((value) => null);
+   final  DocumentSnapshot getAlertValue =
+        await Firestore.instance.collection(AppConstants.bellID).document("flag").get();
+  bellalertValue = getAlertValue.data["isRinging"];
+   return bellalertValue;
+}}

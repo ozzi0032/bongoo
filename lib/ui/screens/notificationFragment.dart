@@ -1,3 +1,4 @@
+import 'package:bongoo/provider/firebase_functions.dart';
 import 'package:bongoo/utils/notificationManagement.dart';
 import 'package:bongoo/utils/sharedPrefs.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -25,6 +26,15 @@ class _NotificationFragmentState extends State<NotificationFragment> {
   }
 
  getAlertValue(){
+  //_switchValue = FirebaseFunctions.getBellAlert();
+//   FirebaseFunctions.getBellAlert().then((value){
+//          setState(() {      _switchValue = value;
+//         print("alert settings from firestore is == "+ _switchValue.toString());
+//       }); 
+//  });
+  
+  
+
  SharedPrefs.getAppAlerts().then((value) {
    setState(() {
         _switchValue = value;
@@ -36,10 +46,12 @@ class _NotificationFragmentState extends State<NotificationFragment> {
 void _onChangedAppAlerts(bool value) async {
     if (value) {
       print("Subscribed App Alerts");
+      FirebaseFunctions.setBellAlert(value);
       setState(() => AlertManagement.subscribeBell());
       SharedPrefs.setAppAlerts(value);
     } else {
       print("Unsubscribed App Aperts");
+      FirebaseFunctions.setBellAlert(value);
       setState(() => AlertManagement.unSubscribeBell());
       SharedPrefs.setAppAlerts(value);
     }

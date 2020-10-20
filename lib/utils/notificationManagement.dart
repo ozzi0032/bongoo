@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class AlertManagement {
 static void subscribeBell(){
-
     FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
     firebaseMessaging.subscribeToTopic('BongoAlerts');
     print("Subscribed");
