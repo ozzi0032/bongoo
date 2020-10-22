@@ -171,9 +171,9 @@ class FirebaseFunctions {
 
   static setBellAlert(bool val) async {
     DocumentReference doc =
-        db.collection(AppConstants.bellID).document("flag");
+        db.collection(AppConstants.bellID).document("NotificationSetting");
     await doc.setData({
-      'isRinging': val,
+      'notificationStatus': val,
     }).whenComplete(() {
 
       print("------------------------");
@@ -183,10 +183,8 @@ class FirebaseFunctions {
   }
   static Future<bool> getBellAlert() async {
    bool bellalertValue;
-  //  Future<QuerySnapshot> query = db.collection('Users').getDocuments();
-  //  query.then((value) => null);
    final  DocumentSnapshot getAlertValue =
-        await Firestore.instance.collection(AppConstants.bellID).document("flag").get();
-  bellalertValue = getAlertValue.data["isRinging"];
+        await Firestore.instance.collection(AppConstants.bellID).document("NotificationSetting").get();
+  bellalertValue = getAlertValue.data["notificationStatus"];
    return bellalertValue;
 }}

@@ -88,8 +88,15 @@ class _LoginScreenState extends State<LoginScreen> {
               onTap: () {
                 // userLogin();
                 isAppSubscribed().then((value) {
-              if (!value) {
+              if (value) {
+                print("-------------------------------");
+                print("^^^^^^ "+"from firestore value is "+value.toString()+" ^^^^^^");
+                print("-------------------------------");
+
         AlertManagement.subscribeBell();
+        SharedPrefs.setAppAlerts(value);
+             }else{
+               SharedPrefs.setAppAlerts(value);
              }
             });
 pr.hide();
@@ -171,8 +178,14 @@ pr.hide();
     );
   }
   Future<bool> isAppSubscribed() async {
-    var isSub = await SharedPrefs.getAppAlerts();
-    return isSub;
+   
+     var isSub = await FirebaseFunctions.getBellAlert();
+     if(isSub!=null){
+return isSub;
+     }else{
+       return true;
+     }
+     
   }
 
   userLogin() async {
@@ -193,6 +206,7 @@ pr.hide();
               if (!value) {
                 
         AlertManagement.subscribeBell();
+
              }
             });
 
