@@ -56,6 +56,9 @@ class _AppCustomTextFieldState extends State<AppCustomTextField> {
 
   getValidatorMsg(String t, String value) {
     switch (t) {
+      case AppConstants.bellIdTextFieldLabel:
+        return value.length < 1 ? AppConstants.bellIdValidation : null;
+        break;
       case AppConstants.emailTextFieldLabel:
         return !value.contains('@') ? AppConstants.emailValidation : null;
         break;
