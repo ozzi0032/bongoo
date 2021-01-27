@@ -20,4 +20,8 @@ class AppConstants {
   //Shared Preferences Keys
   static const String isLoggedIn = 'isLoggedIn';
   static String bellID = "bell_01";
+
+  //notifications variables
+    static const String appAlert = 'isLoggedIn';
+
 }
