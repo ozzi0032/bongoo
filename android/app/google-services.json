@@ -8,6 +8,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:94117525922:android:7aae9785df1986f66ddafb",
+        "android_client_info": {
+          "package_name": "android.bongoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94117525922-2khrl30tletr2e91pm7hj1ubj6rtqn2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCli7krEc4hdQeef13gRZ0qrHkaW5niotw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94117525922-2khrl30tletr2e91pm7hj1ubj6rtqn2c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "94117525922-9ghh56694f2si3lljdje5r1qt4qv2s53.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bongoo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:94117525922:android:8b43f030b48411ca6ddafb",
         "android_client_info": {
           "package_name": "com.example.bongoo"
@@ -30,6 +66,13 @@
             {
               "client_id": "94117525922-2khrl30tletr2e91pm7hj1ubj6rtqn2c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "94117525922-9ghh56694f2si3lljdje5r1qt4qv2s53.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bongoo"
+              }
             }
           ]
         }

@@ -1,4 +1,4 @@
-package com.example.bongoo
+package android.bongoo
 
 import io.flutter.embedding.android.FlutterActivity
 
